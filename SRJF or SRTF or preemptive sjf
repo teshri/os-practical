@@ -1,0 +1,191 @@
+#include <iostream>
+ #include <iomanip> 
+ #include <vector>
+  #include <cstring> 
+  using namespace std;
+int execute1(string s, string exe[], int index, int bt, int *arival )
+{
+
+for (int i = index; i < bt; i++)
+{
+
+exe[i] = s;
+}
+
+*arival=bt; return bt;
+}
+int main()
+{
+
+int size;
+cout << "Enter the number of process: "; cin >> size;
+string process[size];
+cout << "enter name of process \n"; for (int i = 0; i < size; i++)
+{
+
+cin >> process[i];
+}
+
+cout << "enter the arival time of pocesss \n";
+ 
+int time[size];
+for (int i = 0; i < size; i++)
+{
+
+cin >> time[i];
+}
+
+int bt[size];
+cout << "enter the burst time of process \n";
+
+
+for (int i = 0; i < size; i++)
+{
+
+cin >> bt[i];
+}
+
+int temptime; string tempstr;
+for(int i=0;i<size;i++){ for(int j=i+1;j<size;j++){
+if(time[j]<time[i]){ temptime=time[i]; time[i]=time[j]; time[j]=temptime; temptime=bt[i]; bt[i]=bt[j]; bt[j]=temptime; tempstr=process[i]; process[i]=process[j]; process[j]=tempstr;
+}
+}
+ 
+}
+
+
+
+
+
+
+
+int sum = 0,b;
+for (int i = 0; i < size; i++)
+{
+
+sum = sum + bt[i];
+}
+
+int temparival[size]; int tempbt[size];
+for (int i = 0; i < size; i++)
+{
+
+temparival[i] = time[i]; tempbt[i]=bt[i];
+}
+
+int bt2 = 0,c=0; string exe[sum]; int temp = 0, p ; int j = 0;
+temp = temparival[0];
+
+
+int index = 0; int a=0;
+int arival=0; while (j < sum)
+{ if(a==0){
+temp = temparival[0];
+ 
+p=0;
+for (int i = 0; i < size; i++)
+{
+
+if (temp > temparival[i])
+{
+
+temp = temparival[i]; p = i;
+}
+}
+
+// temparival[p] = 100; bt2 = bt2 + 1;
+// cout<<"\nproces "<<process[p]<<endl
+b = execute1(process[p], exe, index, bt2,&arival); tempbt[p]=tempbt[p]-1;
+// cout << "index" << index << endl; index = b;
+a=1;
+if(tempbt[p]==0){ temparival[p]=100;
+}
+}
+else {int tempbt1;
+
+
+
+
+
+tempbt1=tempbt[0]; c=0;
+for(int k=0;k<size;k++){
+ 
+if((temparival[k]<=arival && tempbt1>tempbt[k])&& tempbt[k]!=0){
+
+
+tempbt1=tempbt[k]; c=k;
+
+
+}
+}
+
+
+
+
+if(tempbt[c]!=0){ bt2 = bt2 + 1;
+tempbt[c]=tempbt[c]-1;
+b = execute1(process[c], exe, index, bt2,&arival); index=b;
+
+
+}
+if(tempbt[c]==0){
+
+temparival[c]=100;
+}
+
+
+
+
+} j++;
+}
+
+cout<<"\n sum"<<sum<<endl;
+cout << "execution of process in qu: "; for (int i = 0; i < sum; i++)
+{
+ 
+cout << exe[i] << " ";
+}
+
+int complition[size]; int Tat[size];
+int waiting[size]; int rt[size];
+for(int i=0;i<size;i++){ for(int j=sum-1;i>=0;j--){
+if(process[i]==exe[j]){ complition[i]=j+1; break;
+}
+}
+}
+
+for(int i=0;i<size;i++){ Tat[i]=(complition[i]-time[i]);
+waiting[i]=Tat[i]-bt[i];
+
+}
+for(int i=0;i<size;i++){ for(int j=0;j<sum;j++)
+{
+
+if(process[i]==exe[j]){
+rt[i]=j-time[i]; break;
+}
+}
+}
+
+cout << "\nprocess	"
+ 
+<< "arival time	" << " burst time	"<<"complication	" <<"	Turn around	"<<" waiting time	"<<"response time"<< endl;
+for (int i = 0; i < size; i++)
+{
+
+
+
+
+cout << process[i] << setw(20) << time[i] << setw(20) << bt[i] <<setw(20) << complition[i]<<setw(20) << Tat[i]<<setw(20) << waiting[i]<<setw(20) << rt[i]<< endl;
+}
+float sum1=0,sum2=0,sum3=0;
+
+
+for (int i=0;i<size;i++){ sum1=sum1+waiting[i]; sum2=sum2+Tat[i]; sum3=sum3+complition[i];
+}
+float avg=sum1/size; float avgtat=sum2/size;
+cout<<"\nTotal complition time = "<<sum3<<endl; cout<<"\nAverage waiting time = "<<avg<<endl; cout<<"Average turn around time = "<<avgtat<<endl;
+
+
+return 0;
+}
